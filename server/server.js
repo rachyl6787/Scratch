@@ -5,23 +5,20 @@ const cookieParser = require('cookie-parser');
 const PORT = 3001;
 require('dotenv').config('./.env');
 const id = process.env.CLIENT_ID;
-
+const redirect_uri = 'http://localhost:8080/route/';
+const cookieController = require('./controllers/cookieController');
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
-
+//__dirname, '..', 'build'
 app.use('/build', express.static(path.resolve(__dirname, '..', 'build')));
 
 const apiRouter = require(path.resolve(__dirname, 'routes', 'api'));
 app.use('/api', apiRouter);
 
-app.get('/', (req, res) => {
-  return res
-    .status(200)
-    .sendFile(path.resolve(__dirname, '..', 'client', 'index.html'));
-});
 
 app.get('/login', (req, res) => {
+  console.log('Finally hit this oAuth middleware');
   //will need to add more scopes depending on what we want for functionality
   var scopes = 'playlist-modify-public user-read-email user-read-private';
   res.redirect(
@@ -35,6 +32,19 @@ app.get('/login', (req, res) => {
   );
 });
 
+app.get('/route', cookieController.setCookie, (req, res)=> {
+  return res
+    .status(200)
+    .sendFile(path.resolve(__dirname, '..', '..', 'client', 'index.html'));
+})
+
+app.get('/', (req, res) => {
+  return res
+    .status(200)
+    .sendFile(path.resolve(__dirname, '..', 'client', 'index.html'));
+});
+
+
 app.use((err, req, res, next) => {
   const defaultErr = {
     log: 'Express error handler caught unknown middleware error',
@@ -45,6 +55,9 @@ app.use((err, req, res, next) => {
   console.log(errorObj.log);
   return res.status(errorObj.status).json(errorObj.message);
 });
+
+
+
 
 app.listen(PORT, () => {
   console.log(`Server listening on port: ${PORT}`);

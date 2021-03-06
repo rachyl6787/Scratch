@@ -1,0 +1,76 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
+/* Color Palette */
+:root {
+    --pageBG: #2d2e2e;
+    --moduleBG: #BCABAE;
+    --primaryText: #0f0f0f;
+    --accent: #b9314f;
+    --lightText: #fbfbfb;
+    --midText: #716969;
+}
+
+/* Styles for index.html */
+Body {
+    background: var(--pageBG);
+    color: var(--accent); 
+    font-family: Montserrat;
+}
+
+/* Styles for App.jsx */
+
+
+/* Styles for Banner.jsx */
+.Banner {
+    box-sizing: border-box;
+    border-radius: 5px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 1em;
+    margin-bottom: 2em;
+    background: var(--accent);
+    color: var(--lightText);
+}
+
+
+/* Styles for Festivals.jsx */
+.Festivals {
+    box-sizing: border-box;
+    border-radius: 5px;
+    width: 34%;
+    display: flex;
+    justify-content: center;
+    padding: 1em;
+    margin-bottom: 2em;
+    background: var(--moduleBG);
+    color: var(--primaryText); 
+    text-align: center;  
+}
+
+.Search_Form {
+
+}
+
+.Search_Input {
+    width: 80%;
+    border-radius: 5px;
+    color: var(--primaryText);
+    align-items: baseline;
+}
+
+.Search_Button {
+    border-radius: 5px;
+    background: var(--accent);
+    color: var(--lightText);
+    align-items: baseline;
+}
+
+
+/* Styles for Playlist.jsx */
+
+
+/* Styles for YourEvents.jsx */
+
+
+/* Styles for Login.jsx */

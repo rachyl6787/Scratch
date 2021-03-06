@@ -6,7 +6,6 @@ const songKickController = {};
 
 songKickController.getEventDetails = (req, res, next) => {
   console.log('getEntryDetails fired');
-  // fetch('http://localhost:3001/data/json/')
   const eventId = req.query.id;
   fetch(`http://localhost:3001/api/data/?id=${eventId}`)
     .then((res) => res.json())

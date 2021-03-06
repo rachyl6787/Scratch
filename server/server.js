@@ -10,15 +10,15 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 
-app.use('/build', express.static(path.resolve(__dirname, '..', 'build')));
+app.use('/build', express.static(path.resolve(__dirname, '../build')));
 
-const apiRouter = require(path.resolve(__dirname, 'routes', 'api'));
+const apiRouter = require(path.resolve(__dirname, 'routes/api'));
 app.use('/api', apiRouter);
 
 app.get('/', (req, res) => {
   return res
     .status(200)
-    .sendFile(path.resolve(__dirname, '..', 'client', 'index.html'));
+    .sendFile(path.resolve(__dirname, '../client/index.html'));
 });
 
 app.get('/login', (req, res) => {

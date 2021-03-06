@@ -3,38 +3,34 @@ const path = require('path');
 
 const songKickController = require(path.resolve(
   __dirname,
-  '..',
-  'controllers',
-  'songKickController'
+  '../controllers/SongKickController'
 ));
 
 const spotifyController = require(path.resolve(
   __dirname,
-  '..',
-  'controllers',
-  'spotifyController'
+  '../controllers/SpotifyController'
 ));
 
 const router = express.Router();
 
+// SongKick API Routing
 router.get(
   '/skapi',
   songKickController.getEventDetails,
   songKickController.eventParser,
   (req, res) => {
-    console.log(res.locals.event); // CONSOLE LOG FOR TESTING
     return res.status(200).send(res.locals.event);
   }
 );
 
+// Spotify API Routing
 router.post(
-  '/spotapi/get',
+  '/spotapi',
   spotifyController.getArtistId,
   spotifyController.getTopTracks,
   spotifyController.buildPlaylist,
   (req, res) => {
-    // console.log(res.locals.artistId); // TESTING
-    return res.status(200).send(res.locals.topTracks);
+    return res.status(200).send(res.locals.snapshot);
   }
 );
 

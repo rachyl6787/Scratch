@@ -10,6 +10,9 @@ app.use(cookieParser());
 
 app.use('/build', express.static(path.resolve(__dirname, '..', 'build')));
 
+const apiRouter = require(path.resolve(__dirname, 'routes', 'api'));
+app.use('/api', apiRouter);
+
 app.get('/', (req, res) => {
   return res
     .status(200)

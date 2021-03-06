@@ -27,10 +27,15 @@ router.get(
   }
 );
 
-router.post('/spotapi/getId', spotifyController.getArtistId, (req, res) => {
-  console.log(res.locals.artistId); // TESTING
-  return res.status(200).send(res.locals.artistId);
-});
+router.post(
+  '/spotapi/get',
+  spotifyController.getArtistId,
+  spotifyController.getTopTracks,
+  (req, res) => {
+    // console.log(res.locals.artistId); // TESTING
+    return res.status(200).send(res.locals.topTracks);
+  }
+);
 
 // **** TEMPORARY ROUTE TO MOCK SONGKICK API **** //
 router.get('/data', songKickController.serveJSON, (req, res) => {

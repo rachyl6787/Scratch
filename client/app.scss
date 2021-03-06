@@ -17,46 +17,84 @@ Body {
     font-family: Montserrat;
 }
 
-/* Styles for App.jsx */
-
+/* Styles for Container.jsx */
+.Container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 2fr 4fr;
+}
 
 /* Styles for Banner.jsx */
 .Banner {
+    display: table-cell;
+    grid-column-start: 1;
+    grid-column-end: span 2;
+    grid-row-start: 1;
+    grid-row-end: 1;
     box-sizing: border-box;
     border-radius: 5px;
     width: 100%;
     display: flex;
     justify-content: center;
     padding: 1em;
-    margin-bottom: 2em;
+    margin-bottom: 1em;
     background: var(--accent);
     color: var(--lightText);
+    size: 100em;
 }
 
 
 /* Styles for Festivals.jsx */
-.Festivals {
+.Festivals_Container {
+    display: table-cell;
+    grid-column-start: 1;
+    grid-column-end: 1;
+    grid-row-start: 2;
+    grid-row-end: 2;
     box-sizing: border-box;
     border-radius: 5px;
-    width: 34%;
-    display: flex;
     justify-content: center;
     padding: 1em;
-    margin-bottom: 2em;
+    margin-bottom: 1em;
+    margin-right: 1em; 
+}
+.Festivals {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+    box-sizing: border-box;
+    border-radius: 5px;
+    justify-content: center;
+    padding: 1em;
+    margin-bottom: 1em;
+    margin-right: 1em;
     background: var(--moduleBG);
     color: var(--primaryText); 
     text-align: center;  
 }
 
-.Search_Form {
+.Festivals_Header {
+    display: table-cell;
+    grid-column-start: 1;
+    grid-column-end: 1;
+    grid-row-start: 1;
+    grid-row-end: 1;
+}
 
+.Search_Form {
+    display: table-cell;
+    grid-column-start: 1;
+    grid-column-end: 1;
+    grid-row-start: 2;
+    grid-row-end: span 2;
 }
 
 .Search_Input {
-    width: 80%;
+    width: 65%;
     border-radius: 5px;
     color: var(--primaryText);
     align-items: baseline;
+    margin: 5px;
 }
 
 .Search_Button {
@@ -64,13 +102,41 @@ Body {
     background: var(--accent);
     color: var(--lightText);
     align-items: baseline;
+    margin: 5px;
 }
 
 
 /* Styles for Playlist.jsx */
-
+.Playlist {
+    display: table-cell;
+    grid-column-start: 1;
+    grid-column-end: 1;
+    grid-row-start: 3;
+    grid-row-end: 3;
+    box-sizing: border-box;
+    border-radius: 5px;
+    justify-content: center;
+    padding: 1em;
+    margin-right: 1em;
+    background: var(--moduleBG);
+    color: var(--primaryText); 
+    text-align: center;  
+} 
 
 /* Styles for YourEvents.jsx */
-
+.Your_Events {
+    display: table-cell;
+    grid-column-start: 2;
+    grid-column-end: 2;
+    grid-row-start: 2;
+    grid-row-end: span 3;
+    box-sizing: border-box;
+    border-radius: 5px;
+    justify-content: center;
+    padding: 1em;
+    background: var(--moduleBG);
+    color: var(--primaryText); 
+    text-align: center;  
+} 
 
 /* Styles for Login.jsx */

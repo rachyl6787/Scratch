@@ -3,6 +3,8 @@ const express = require('express');
 const app = express();
 const cookieParser = require('cookie-parser');
 const PORT = 3001;
+require('dotenv').config('./.env');
+const id = process.env.CLIENT_ID;
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -18,6 +20,16 @@ app.get('/', (req, res) => {
     .status(200)
     .sendFile(path.resolve(__dirname, '..', 'client', 'index.html'));
 });
+
+app.get('/login', (req, res) => {
+  //will need to add more scopes depending on what we want for functionality
+  var scopes = 'playlist-modify-public user-read-email user-read-private'; 
+  res.redirect('https://accounts.spotify.com/authorize' +
+    '?response_type=code' +
+    '&client_id=' + id +
+    (scopes ? '&scope=' + encodeURIComponent(scopes) : '') +
+    '&redirect_uri=' + encodeURIComponent(redirect_uri));
+  });
 
 app.use((err, req, res, next) => {
   const defaultErr = {

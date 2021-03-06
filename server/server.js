@@ -23,13 +23,17 @@ app.get('/', (req, res) => {
 
 app.get('/login', (req, res) => {
   //will need to add more scopes depending on what we want for functionality
-  var scopes = 'playlist-modify-public user-read-email user-read-private'; 
-  res.redirect('https://accounts.spotify.com/authorize' +
-    '?response_type=code' +
-    '&client_id=' + id +
-    (scopes ? '&scope=' + encodeURIComponent(scopes) : '') +
-    '&redirect_uri=' + encodeURIComponent(redirect_uri));
-  });
+  var scopes = 'playlist-modify-public user-read-email user-read-private';
+  res.redirect(
+    'https://accounts.spotify.com/authorize' +
+      '?response_type=code' +
+      '&client_id=' +
+      id +
+      (scopes ? '&scope=' + encodeURIComponent(scopes) : '') +
+      '&redirect_uri=' +
+      encodeURIComponent(redirect_uri)
+  );
+});
 
 app.use((err, req, res, next) => {
   const defaultErr = {

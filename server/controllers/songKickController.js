@@ -1,22 +1,34 @@
 const path = require('path');
 const fs = require('fs');
+const fetch = require('node-fetch');
 
 const songKickController = {};
 
 songKickController.getEventDetails = (req, res, next) => {
   console.log('getEntryDetails fired');
-  fs.readFile('server/data/json/outside-lands.json', 'utf8', (err, data) => {
-    if (err) throw err;
-    data = JSON.parse(data);
-    res.locals.data = data;
-    return next();
-  });
+  // fetch('http://localhost:3001/data/json/')
+  const eventId = req.query.id;
+  fetch(`http://localhost:3001/api/data/?id=${eventId}`)
+    .then((res) => res.json())
+    .then((data) => {
+      res.locals.data = data.resultsPage.results.event;
+      console.log(res.locals.data);
+      return next();
+    })
+    .catch((err) => {
+      return next({
+        log: `Error in getEventDetails middleware: ${err}`,
+        message: { err: 'An error occurred' },
+      });
+    });
 };
 
 songKickController.eventParser = (req, res, next) => {
   console.log('eventParser fired');
   const sk = res.locals.data;
+
   const festivalDetails = {
+    id: sk.id,
     url: sk.uri,
     festName: sk.displayName,
     date: { start: sk.start.date, end: sk.end.date },
@@ -24,19 +36,24 @@ songKickController.eventParser = (req, res, next) => {
     city: sk.location.city,
     artists: [],
   };
-  // const festivalDetails = {};
-  // const data = res.locals.data;
-  // festivalDetails.url = data.uri;
-  // festivalDetails.festName = data.displayName;
-  // festivalDetails.date = { start: data.start.date, end: data.end.date };
-  // festivalDetails.venue = data.venue.displayName;
-  // festivalDetails.city = data.location.city;
-  // festivalDetails.artists = [];
   sk.performance.forEach((artist) => {
     festivalDetails.artists.push(artist.displayName);
   });
+
   res.locals.event = festivalDetails;
   return next();
+};
+
+// **** TEMPORARY CONTROLLER FOR FAKING SONGKICK API **** //
+songKickController.serveJSON = (req, res, next) => {
+  console.log('serveJSON fired');
+  const dataDir = path.resolve(__dirname, '..', 'data', 'json');
+  const eventId = req.query.id;
+  fs.readFile(`${dataDir}/${eventId}.json`, (err, data) => {
+    data = JSON.parse(data);
+    res.locals.data = data;
+    return next();
+  });
 };
 
 module.exports = songKickController;

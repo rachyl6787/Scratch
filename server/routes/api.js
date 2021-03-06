@@ -31,6 +31,7 @@ router.post(
   '/spotapi/get',
   spotifyController.getArtistId,
   spotifyController.getTopTracks,
+  spotifyController.buildPlaylist,
   (req, res) => {
     // console.log(res.locals.artistId); // TESTING
     return res.status(200).send(res.locals.topTracks);

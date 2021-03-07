@@ -8,7 +8,14 @@ songKickController.getEventDetails = (req, res, next) => {
   console.log('getEntryDetails fired');
   const eventId = req.query.id;
   fetch(`http://localhost:3001/api/data/?id=${eventId}`)
-    .then((res) => res.json())
+    .then((res) => {
+      if (res.status >= 400)
+        return next({
+          log: `Error in getEventDetails middleware: ${res.status}: ${res.statusText}`,
+          message: { err: 'An error occurred' },
+        });
+      return res.json();
+    })
     .then((data) => {
       res.locals.data = data.resultsPage.results.event;
       console.log(res.locals.data);

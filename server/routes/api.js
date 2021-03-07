@@ -20,11 +20,24 @@ router.post(
   '/spotapi',
   spotifyController.getArtistId,
   spotifyController.getTopTracks,
-  spotifyController.buildPlaylist,
+  spotifyController.getUserId,
+  spotifyController.createEmptyPlaylist,
+  spotifyController.seedPlaylist,
   (req, res) => {
     return res.status(200).send('Playlist successfully created!');
   }
 );
+
+// // Spotify API Routing
+// router.post(
+//   '/spotapi',
+//   spotifyController.getArtistId,
+//   spotifyController.getTopTracks,
+//   spotifyController.buildPlaylist,
+//   (req, res) => {
+//     return res.status(200).send('Playlist successfully created!');
+//   }
+// );
 
 // **** TEMPORARY ROUTE TO MOCK SONGKICK API **** //
 router.get('/data', songKickController.serveJSON, (req, res) => {

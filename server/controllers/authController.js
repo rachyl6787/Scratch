@@ -6,7 +6,8 @@ const authController = {};
 
 authController.spotifyLogin = (req, res, next) => {
   console.log('spotifyLogin fired...');
-  var scopes = 'playlist-modify-public user-read-email user-read-private';
+  var scopes = 'playlist-modify-public';
+
   return res.redirect(
     'https://accounts.spotify.com/authorize' +
       '?response_type=code' +
@@ -20,8 +21,19 @@ authController.spotifyLogin = (req, res, next) => {
 
 authController.setCookie = (req, res, next) => {
   console.log('setCookie fired...');
-  res.cookie('verified', 'true', { maxAge: 60 * 5 * 1000, httpOnly: true });
+  res.cookie('9HWmQ0ME', req.query.code, {
+    maxAge: 60 * 5 * 1000,
+    // httpOnly: true,
+  });
   return next();
+};
+
+authController.getToken = (req, res, next) => {
+  // send post request
+  // url encode client id, client secret, base 64
+  // header auth code (cookie), grant type, auth code
+  // redirect uri
+  // res: access token, token type, expires in, refresh token
 };
 
 module.exports = authController;

@@ -46,7 +46,7 @@ spotifyController.getArtistId = (req, res, next) => {
     })
     .catch((err) => {
       return next({
-        log: `Error in getArtistId:Promise.All middleware: ${err}`,
+        log: `Error in getArtistId:Promise.all middleware: ${err}`,
         message: { err: 'An error occurred' },
       });
     });
@@ -59,7 +59,7 @@ spotifyController.getTopTracks = (req, res, next) => {
   const promiseArr = [];
   const topTracks = [];
 
-  //get top tracks
+  // get top tracks
   artistIds.forEach((artistId) => {
     const artistIdUrl = `	https://api.spotify.com/v1/artists/${artistId}/top-tracks?=market=US`;
 
@@ -73,7 +73,7 @@ spotifyController.getTopTracks = (req, res, next) => {
       })
         .then((res) => res.json())
         .then((data) => {
-          for (let i = 0; i < 2; i++) {
+          for (let i = 0; i < 3; i++) {
             topTracks.push(data.tracks[i].uri);
           }
         })
@@ -95,7 +95,7 @@ spotifyController.getTopTracks = (req, res, next) => {
     })
     .catch((err) => {
       return next({
-        log: `Error in getTopTracks:Promise.All middleware: ${err}`,
+        log: `Error in getTopTracks:Promise.all middleware: ${err}`,
         message: { err: 'An error occurred' },
       });
     });
@@ -103,14 +103,15 @@ spotifyController.getTopTracks = (req, res, next) => {
 
 spotifyController.buildPlaylist = (req, res, next) => {
   console.log('buildPlaylist fired...');
+  const { festival } = req.body;
 
   const newPlaylist = {
-    name: 'New Playlist',
-    description: 'New playlist description',
+    name: `${festival} Playlist`,
+    description: 'curated by __card',
     public: false,
   };
 
-  // get user id
+  // getUserId - get user id
   fetch('https://api.spotify.com/v1/me', {
     headers: {
       Accept: 'application/json',
@@ -122,7 +123,8 @@ spotifyController.buildPlaylist = (req, res, next) => {
     .then((data) => {
       const userId = data.id;
       console.log('userId gotten.');
-      // create an empty playlist
+
+      // createEmptyPlaylist - create an empty playlist
       fetch(`https://api.spotify.com/v1/users/${userId}/playlists`, {
         method: 'POST',
         headers: {
@@ -135,26 +137,63 @@ spotifyController.buildPlaylist = (req, res, next) => {
         .then((res) => res.json())
         .then((data) => {
           console.log('empty playlist created.');
-          const playlistId = data.id;
-          const JSONbody = JSON.stringify({ uris: res.locals.topTracks });
 
-          // seed playlist with tracks - 100 Max ////////////////////////////// FIX MAX LATER
-          fetch(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`, {
-            method: 'POST',
-            headers: {
-              Accept: 'application/json',
-              'Content-type': 'application/json',
-              Authorization: `Bearer ${token}`,
-            },
-            body: JSONbody,
-          })
-            .then((res) => res.json())
-            .then((data) => {
-              console.log('playlist seeded.');
-              res.locals.snapshot = data;
-              return next();
+          const playlistId = data.id;
+          const { topTracks } = res.locals;
+
+          const promiseArr = [];
+
+          // seedPlaylist - seed playlist with tracks - 100 at a time
+          for (let i = 0; i < topTracks.length; i += 100) {
+            const JSONbody = JSON.stringify({
+              uris: topTracks.slice(i, i + 100),
             });
+
+            promiseArr.push(
+              fetch(
+                `https://api.spotify.com/v1/playlists/${playlistId}/tracks`,
+                {
+                  method: 'POST',
+                  headers: {
+                    Accept: 'application/json',
+                    'Content-type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                  },
+                  body: JSONbody,
+                }
+              ).catch((err) => {
+                return next({
+                  log: `Error in buildPlaylist:seedPlaylist:fetch middleware: ${err}`,
+                  message: { err: 'An error occurred' },
+                });
+              })
+            );
+          }
+
+          Promise.all(promiseArr)
+            .then(() => {
+              console.log('playlist seeded.');
+              return next();
+            })
+            .catch((err) => {
+              return next({
+                log: `Error in buildPlaylist:seedPlaylist:Promise.all middleware: ${err}`,
+                message: { err: 'An error occurred' },
+              });
+            });
+        })
+        .catch((err) => {
+          return next({
+            log: `Error in buildPlaylist:createEmptyPlaylist middleware: ${err}`,
+            message: { err: 'An error occurred' },
+          });
         });
+    })
+    .catch((err) => {
+      return next({
+        log: `Error in buildPlaylsit:getUserId middleware: ${err}`,
+        message: { err: 'An error occurred' },
+      });
     });
 };
 

@@ -1,22 +1,28 @@
 const express = require('express');
-const path = require('path');
-
-const songKickController = require(path.resolve(
-  __dirname,
-  '..',
-  'controllers',
-  'songKickController'
-));
-
 const router = express.Router();
 
+const songKickController = require('../controllers/songKickController');
+
+const spotifyController = require('../controllers/spotifyController');
+
+// SongKick API Routing
 router.get(
   '/skapi',
   songKickController.getEventDetails,
   songKickController.eventParser,
   (req, res) => {
-    console.log(res.locals.event); // CONSOLE LOG FOR TESTING
     return res.status(200).send(res.locals.event);
+  }
+);
+
+// Spotify API Routing
+router.post(
+  '/spotapi',
+  spotifyController.getArtistId,
+  spotifyController.getTopTracks,
+  spotifyController.buildPlaylist,
+  (req, res) => {
+    return res.status(200).send(res.locals.snapshot);
   }
 );
 

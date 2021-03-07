@@ -6,7 +6,6 @@ const songKickController = {};
 
 songKickController.getEventDetails = (req, res, next) => {
   console.log('getEntryDetails fired');
-  // fetch('http://localhost:3001/data/json/')
   const eventId = req.query.id;
   fetch(`http://localhost:3001/api/data/?id=${eventId}`)
     .then((res) => res.json())
@@ -47,7 +46,7 @@ songKickController.eventParser = (req, res, next) => {
 // **** TEMPORARY CONTROLLER FOR FAKING SONGKICK API **** //
 songKickController.serveJSON = (req, res, next) => {
   console.log('serveJSON fired');
-  const dataDir = path.resolve(__dirname, '..', 'data', 'json');
+  const dataDir = path.resolve(__dirname, '../data/json');
   const eventId = req.query.id;
   fs.readFile(`${dataDir}/${eventId}.json`, (err, data) => {
     data = JSON.parse(data);

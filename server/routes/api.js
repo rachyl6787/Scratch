@@ -22,7 +22,7 @@ router.post(
   spotifyController.getTopTracks,
   spotifyController.buildPlaylist,
   (req, res) => {
-    return res.status(200).send(res.locals.snapshot);
+    return res.status(200).send('Playlist successfully created!');
   }
 );
 

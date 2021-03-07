@@ -1,6 +1,5 @@
 const fetch = require('node-fetch');
-const token =
-  'BQBlDkGwEkoamxYJx-96r3mlrrPQBX72-2q6NaypTg9O4udHtd25RmXj9iocXLS0OG-mNLa8tW4DURfediO9AttBtTEujUnEo_a5YeQcFwESO3H60_KCgz-zS43fnTvwA3ApRFbsMzL5TzrLGNuMbYU4GyEVtgrZu_biwRz8ui9Er2spNjsn6mxJ5aXvdtwUdygdhoo7m-vTHI526ykivwcM8f-osNE1';
+const token = process.env.CLIENT_TOKEN;
 
 spotifyController = {};
 

@@ -46,7 +46,7 @@ songKickController.eventParser = (req, res, next) => {
 // **** TEMPORARY CONTROLLER FOR FAKING SONGKICK API **** //
 songKickController.serveJSON = (req, res, next) => {
   console.log('serveJSON fired');
-  const dataDir = path.resolve(__dirname, '..', 'data', 'json');
+  const dataDir = path.resolve(__dirname, '../data/json');
   const eventId = req.query.id;
   fs.readFile(`${dataDir}/${eventId}.json`, (err, data) => {
     data = JSON.parse(data);

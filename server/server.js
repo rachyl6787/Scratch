@@ -1,10 +1,11 @@
 const path = require('path');
+
 const express = require('express');
-const app = express();
 const cookieParser = require('cookie-parser');
-const PORT = 3001;
 require('dotenv').config('./.env');
-const id = process.env.CLIENT_ID;
+
+const app = express();
+const PORT = 3001;
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -12,8 +13,11 @@ app.use(cookieParser());
 
 app.use('/build', express.static(path.resolve(__dirname, '../build')));
 
-const apiRouter = require(path.resolve(__dirname, 'routes/api'));
+const apiRouter = require('./routes/api');
 app.use('/api', apiRouter);
+
+const authRouter = require('./routes/auth');
+app.use('/login', authRouter);
 
 app.get('/', (req, res) => {
   return res
@@ -21,19 +25,7 @@ app.get('/', (req, res) => {
     .sendFile(path.resolve(__dirname, '../client/index.html'));
 });
 
-app.get('/login', (req, res) => {
-  //will need to add more scopes depending on what we want for functionality
-  var scopes = 'playlist-modify-public user-read-email user-read-private';
-  res.redirect(
-    'https://accounts.spotify.com/authorize' +
-      '?response_type=code' +
-      '&client_id=' +
-      id +
-      (scopes ? '&scope=' + encodeURIComponent(scopes) : '') +
-      '&redirect_uri=' +
-      encodeURIComponent(redirect_uri)
-  );
-});
+app.use('*', (req, res) => res.sendStatus(404));
 
 app.use((err, req, res, next) => {
   const defaultErr = {

@@ -1,17 +1,9 @@
 const express = require('express');
-const path = require('path');
-
-const songKickController = require(path.resolve(
-  __dirname,
-  '../controllers/SongKickController'
-));
-
-const spotifyController = require(path.resolve(
-  __dirname,
-  '../controllers/SpotifyController'
-));
-
 const router = express.Router();
+
+const songKickController = require('../controllers/songKickController');
+
+const spotifyController = require('../controllers/spotifyController');
 
 // SongKick API Routing
 router.get(

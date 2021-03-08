@@ -62,3 +62,17 @@ ALTER TABLE public.artists ADD CONSTRAINT "artists_fk0" FOREIGN KEY ("id") REFER
 
 
 -- Insert sample data from SongPick Api
+
+-- Test the successful saving of a user's cookies/session values into SQL
+
+
+
+
+
+--Test to see if a festival is added to the DB upon user click. 
+--For the time being, will simply insert generic festival name
+
+INSERT INTO public.festivals VALUES (1, 'Outside Lands Music & Arts');
+
+--To test if it's present, enter \d festivals
+

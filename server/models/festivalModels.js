@@ -4,6 +4,7 @@ const { Pool } = require('pg');
 const PG_URI = 'postgres://peujoqnu:eNZ1vaUdUeYYShcVzsSIhnvovBQ5iwki@ziggy.db.elephantsql.com:5432/peujoqnu';
 
 // create a new pool here using the connection string above
+//Currently running on Port 5432
 const pool = new Pool({
   connectionString: PG_URI
 });

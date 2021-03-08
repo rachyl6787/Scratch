@@ -24,7 +24,7 @@ authController.spotifyLogin = (req, res, next) => {
 
 authController.setAuthCookie = (req, res, next) => {
   console.log('setAuthCookie fired...');
-  // WE NEED TO SAVE THESE IN DB
+  // CHANGE TO SITE VERIFIED COOKIE
   res.cookie('9HWmQ0ME', req.query.code, {
     maxAge: 30 * 60 * 1000, // 30 Minutes
   });
@@ -86,8 +86,8 @@ authController.getToken = (req, res, next) => {
       return res.json();
     })
     .then((data) => {
-      res.locals.access = data.access_token;
-      res.locals.refresh = data.refresh_token;
+      res.locals.access = data.access_token; // TOKENS TO SAVE
+      res.locals.refresh = data.refresh_token; // TOKENS TO SAVE
       return next();
     })
     .catch((err) => {
@@ -97,5 +97,32 @@ authController.getToken = (req, res, next) => {
       });
     });
 };
+
+/*
+  //Login:
+    //Check for cookie userId
+      //If userId doesn't exist
+        //Redirect to OAuth
+        //Receive authentication code and save to res.locals
+        //Trade auth code for access token & refresh token -> save to res.locals
+        //Query the spotify API for spotify's userID -> save to res.locals
+          //checks if spotUserId is in DB
+            //true- 
+              // upsert auth token and refresh token
+              // save spotUserId to cookie - 30 days
+              // redirect /
+            //false-
+              // INSERT an entry() in DB users
+                  1. Save spotUserId 
+                  2. Save the access token 
+                  3. Save the refresh token
+                  
+              // set spotUserId to cookie - 30 days
+              // redirect /
+
+      // If spotUserId does exist on cookie
+        // send refresh token
+        // update access token in db
+*/
 
 module.exports = authController;

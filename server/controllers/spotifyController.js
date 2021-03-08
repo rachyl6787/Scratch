@@ -32,7 +32,8 @@ spotifyController.getArtistId = (req, res, next) => {
           return res.json();
         })
         .then((data) => {
-          artistId[artist] = data.artists.items[0].id;
+          if (data.artists.items.length !== 0)
+            artistId[artist] = data.artists.items[0].id;
         })
         .catch((err) => {
           return next({
@@ -68,7 +69,7 @@ spotifyController.getTopTracks = (req, res, next) => {
 
   // get top tracks
   artistIds.forEach((artistId) => {
-    const artistIdUrl = `	https://api.spotify.com/v1/artists/${artistId}/top-tracks?=market=US`;
+    const artistIdUrl = `https://api.spotify.com/v1/artists/${artistId}/top-tracks?=market=US`;
 
     promiseArr.push(
       fetch(artistIdUrl, {
@@ -241,100 +242,33 @@ spotifyController.seedPlaylist = (req, res, next) => {
     });
 };
 
-// spotifyController.buildPlaylist = (req, res, next) => {
-//   console.log('buildPlaylist fired...');
-//   const { festival } = req.body;
-
-//   const newPlaylist = {
-//     name: `${festival} Playlist`,
-//     description: 'curated by __card',
-//     public: false,
-//   };
-
-//   // getUserId - get user id
-//   fetch('https://api.spotify.com/v1/me', {
-//     headers: {
-//       Accept: 'application/json',
-//       'Content-type': 'application/json',
-//       Authorization: `Bearer ${token}`,
-//     },
-//   })
-//     .then((res) => res.json())
-//     .then((data) => {
-//       const userId = data.id;
-//       console.log('userId gotten.');
-
-//       // createEmptyPlaylist - create an empty playlist
-//       fetch(`https://api.spotify.com/v1/users/${userId}/playlists`, {
-//         method: 'POST',
-//         headers: {
-//           Accept: 'application/json',
-//           'Content-type': 'application/json',
-//           Authorization: `Bearer ${token}`,
-//         },
-//         body: JSON.stringify(newPlaylist),
-//       })
-//         .then((res) => res.json())
-//         .then((data) => {
-//           console.log('empty playlist created.');
-
-//           const playlistId = data.id;
-//           const { topTracks } = res.locals;
-
-//           const promiseArr = [];
-
-//           // seedPlaylist - seed playlist with tracks - 100 at a time
-//           for (let i = 0; i < topTracks.length; i += 100) {
-//             const JSONbody = JSON.stringify({
-//               uris: topTracks.slice(i, i + 100),
-//             });
-
-//             promiseArr.push(
-//               fetch(
-//                 `https://api.spotify.com/v1/playlists/${playlistId}/tracks`,
-//                 {
-//                   method: 'POST',
-//                   headers: {
-//                     Accept: 'application/json',
-//                     'Content-type': 'application/json',
-//                     Authorization: `Bearer ${token}`,
-//                   },
-//                   body: JSONbody,
-//                 }
-//               ).catch((err) => {
-//                 return next({
-//                   log: `Error in buildPlaylist:seedPlaylist:fetch middleware: ${err}`,
-//                   message: { err: 'An error occurred' },
-//                 });
-//               })
-//             );
-//           }
-
-//           Promise.all(promiseArr)
-//             .then(() => {
-//               console.log('playlist seeded.');
-//               return next();
-//             })
-//             .catch((err) => {
-//               return next({
-//                 log: `Error in buildPlaylist:seedPlaylist:Promise.all middleware: ${err}`,
-//                 message: { err: 'An error occurred' },
-//               });
-//             });
-//         })
-//         .catch((err) => {
-//           return next({
-//             log: `Error in buildPlaylist:createEmptyPlaylist middleware: ${err}`,
-//             message: { err: 'An error occurred' },
-//           });
-//         });
-//     })
-//     .catch((err) => {
-//       return next({
-//         log: `Error in buildPlaylsit:getUserId middleware: ${err}`,
-//         message: { err: 'An error occurred' },
-//       });
-//     });
-// };
-
 module.exports = spotifyController;
+
+//Write a query to SELECT all the data from the artists table
+
+//Convert from JSON to object.
+//Store that data into a variable, localArtists
+
+//Iterate through the artists array from req.body (MEMOIZE)
+//Check localArtists to see if the artist exists
+//If so, get the spotifyArtistId from this artist
+//Save from spotify - artistId = {}, artistId[artist_name] = spotify_artist_id
+//If the artist doesn't exist
+//Fetch the artist data from the API call
+//Store the artists data into our localArtists cache
+// toSave = {}, artistId[artist_name] = spotify_artist_id
+//Get the spotifyArtistId from this artist
+//Save that spotifyArtistId to artistId[artist] in res.locals
+
+// save into object
+// as we get responses, save into cache object
+
+// parse object into string
+// let string = '';
+// iterate over keys in object
+// for (let key of Object.keys(cache))
+// string += `(${key},${cache[key]}),`
+// string = string.splice(string.length-1, ';')
+
+// INSERT INTO db.artists ( artist_name, spotify_artist_id )
+// VALUES ( 'The Killers', '123ABC' ), ( 'Young Thug', 'ABC123' );g

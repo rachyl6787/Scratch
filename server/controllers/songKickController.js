@@ -1,7 +1,7 @@
 const path = require('path');
 const fs = require('fs');
 const fetch = require('node-fetch');
-
+const db = require('../models/festivalModels');
 const songKickController = {};
 
 songKickController.getEventDetails = (req, res, next) => {
@@ -49,6 +49,30 @@ songKickController.eventParser = (req, res, next) => {
   res.locals.event = festivalDetails;
   return next();
 };
+
+
+//Add method to add user selected festivals to saved database. 
+//Should render in YourEvents
+songKickController.addFestival = (req, res, next) => {
+  const f = req.body;
+  //Currently DB only has two fields for Festivals, id(auto-increment) and name
+  const sql = ` INSERT INTO Festival (name)
+                VALUES ('${f.name}')
+                RETURNING *`;
+
+  db.query(sql)
+    .then((dbRes) => {
+      res.locals.newFestival = dbRes.rows;
+      next();
+    })
+    .catch((err) => {
+      next({
+        log: `Error in addFestival middleware: ${err}`,
+        message: { err: 'An error occurred' },
+      });
+    });
+};
+
 
 // **** TEMPORARY CONTROLLER FOR FAKING SONGKICK API **** //
 songKickController.serveJSON = (req, res, next) => {

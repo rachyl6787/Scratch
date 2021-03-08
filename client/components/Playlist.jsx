@@ -3,6 +3,7 @@ import Artist from './Artist.jsx';
 
 export default function Playlist(props) {
   const artistArray = props.artists;
+  const fest = props.festival;
 
   const artistList = [];
 
@@ -11,17 +12,26 @@ export default function Playlist(props) {
   }
 
   const handleSubmit = () => {
+    const cookieArray = document.cookie.split(';');
+    let token;
+    for (let i = 0; i < cookieArray.length; i++) {
+      if (cookieArray[i].includes('WHxyM9l1')) {
+        let result = cookieArray[i].split('=');
+        token = result[1];
+      }
+    }
+
     const request = {
-      token: 'INSERT_TOKEN',
-      festival: 'INSERT_FESTIVAL',
+      token: token,
+      festival: fest,
       artists: props.artists,
     };
-    console.log('request: ', JSON.stringify(request));
+    console.log('request: ', request);
     fetch('api/spotapi/', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-type': 'application/json' },
       body: JSON.stringify(request),
-    }); // body: JSON.stringify('LOLOLLLLLOL'),
+    });
   };
 
   return (

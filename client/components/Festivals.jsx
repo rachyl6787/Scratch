@@ -30,6 +30,7 @@ export default function Festivals (props) {
                     id={festivals[x]}
                     artists={props.artists}
                     updateArtists={props.updateArtists}
+                    updateFestival={props.updateFestival}
                     />);
                }
             }

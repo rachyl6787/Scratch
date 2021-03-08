@@ -11,18 +11,25 @@ class Container extends Component {
     this.state = { 
         search: '',
         artists: [],
+        festival: '',
         user: 'Goblin Shark',
         token: '',
         code: ''
     };
     this.updateArtists = this.updateArtists.bind(this);
+    this.updateFestival = this.updateFestival.bind(this);
   }
 
   updateArtists (payload) {
    this.setState((state) => { 
      return {...state, artists: payload}
-  }, () => console.log(this.state))
+  })
 }
+  updateFestival (payload) {
+    this.setState((state) => {
+      return {...state, festival: payload}
+    })
+  }
 
   render() {
     return (
@@ -36,6 +43,8 @@ class Container extends Component {
           search={this.state.search}
           artists={this.state.artists}
           updateArtists={this.updateArtists}
+          festival={this.state.festival}
+          updateFestival={this.updateFestival}
         />
         <Playlist 
           key={'playlist'}
@@ -44,6 +53,8 @@ class Container extends Component {
           user={this.state.user}
           token={this.state.token}
           code={this.state.code}
+          festival={this.state.festival}
+          updateFestival={this.updateFestival}
         />
         <YourEvents />
       </div>

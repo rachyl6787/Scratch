@@ -7,10 +7,10 @@ export default function Result(props) {
             .then(data => data.json())
             .then(function (json) {
                 let payload = json['artists'];
-                console.log(payload);
+                let fest = json['festName'];
                 props.updateArtists(payload);
+                props.updateFestival(fest);
             })
-        .then(document.cookie = `artistID=${props.id}`);
     }
 
     return (

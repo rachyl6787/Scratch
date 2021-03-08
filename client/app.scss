@@ -61,7 +61,7 @@ Body {
 .Festivals {
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 1fr 1fr;
+    grid-template-rows: auto;
     box-sizing: border-box;
     border-radius: 5px;
     justify-content: center;
@@ -91,7 +91,7 @@ Body {
 
 .Search_Input {
     width: 65%;
-    height: 30px;
+    height: 25px;
     border-radius: 5px;
     color: var(--primaryText);
     align-items: baseline;
@@ -106,12 +106,21 @@ Body {
     align-items: baseline;
     margin: 5px;
 }
+.Result {
+  width: 100%;
+}
 .Result_Form {
-    display: table-cell;
-    grid-column-start: 1;
-    grid-column-end: 1;
-    grid-row-start: 2;
-    grid-row-end: span 2;
+  margin: 5px;
+}
+.Result_Button {
+    height: 20px;
+    border-radius: 5px;
+    border-color: var(--accent);
+    border-style: thin;
+    background: var(--lightText);
+    color: var(--accent);
+    padding-left: 20px;
+    margin: 5px;
 }
 
 

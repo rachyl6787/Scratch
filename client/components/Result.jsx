@@ -10,12 +10,12 @@ export default function Result (props) {
 
     return (
         <div className="Result">
-            <form onSubmit={e => { e.preventDefault(); handleSubmit();}}>
-            <p>{props.displayName}</p>
+            <form className="Result_Form" onSubmit={e => { e.preventDefault(); handleSubmit();}}>
+            {props.displayName}
             <input
               className="Result_Button"
               type="submit"
-              value="Create Playlist"
+              value="Build Playlist"
             />
             </form>
         </div>

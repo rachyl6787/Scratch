@@ -1,7 +1,7 @@
 const { Pool } = require('pg');
 
 //Timeo URI
-const PG_URI = 'postgres://peujoqnu:eNZ1vaUdUeYYShcVzsSIhnvovBQ5iwki@ziggy.db.elephantsql.com:5432/peujoqnu';
+const PG_URI = 'postgres://ggaohaao:jUJRF_j_Vzp-s-9xUwLVW8MiQqxgQVdc@ziggy.db.elephantsql.com:5432/ggaohaao';
 
 // create a new pool here using the connection string above
 //Currently running on Port 5432

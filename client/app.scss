@@ -113,13 +113,13 @@ Body {
   margin: 5px;
 }
 .Result_Button {
-    height: 20px;
     border-radius: 5px;
     border-color: var(--accent);
     border-style: thin;
     background: var(--lightText);
     color: var(--accent);
-    padding-left: 20px;
+    padding-left: 5px;
+    padding-right: 5px;
     margin: 5px;
 }
 
@@ -140,6 +140,20 @@ Body {
     color: var(--primaryText); 
     text-align: center;  
 } 
+.Artist_Grid {
+    display: flex column;
+    margin: 1px;
+}
+.Create_Button {
+    border-radius: 5px;
+    border-color: var(--accent);
+    border-style: thin;
+    background: var(--lightText);
+    color: var(--accent);
+    padding-left: 5px;
+    padding-right: 5px;
+    margin: 5px;
+}
 
 /* Styles for YourEvents.jsx */
 .Your_Events {

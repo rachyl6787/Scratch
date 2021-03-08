@@ -18,14 +18,13 @@ class Container extends Component {
     this.updateArtists = this.updateArtists.bind(this);
   }
 
-  updateArtists () {
+  updateArtists (payload) {
    this.setState((state) => { 
-     return {artists: state }
-  })
+     return {...state, artists: payload}
+  }, () => console.log(this.state))
 }
 
   render() {
-    console.log(this.state.search);
     return (
       <div className="Container">
         <Banner 

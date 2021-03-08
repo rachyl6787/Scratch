@@ -1,42 +1,49 @@
-import React, { useContext, useState, useEffect } from 'react';
-import { Context } from './Context.jsx';
-import Artist from './Artist.jsx';
+import React, { useState, useEffect } from 'react';
+import Artist from "./Artist.jsx";
 
-export default function Playlist(props) {
+export default function Playlist (props) {
 
-    // const artistsContext = useContext(Context);
-    // const { artists, selectedArtists, setSelectedArtists } = artistsContext;
+    const artistArray = props.artists;
 
-    // const artist = ["The Strokes", "Tame Impala", "Gogol Bordello"];
 
-    // return () => {
-    //     if (artists.length === 0) {
-    //         return (
-    //             <div className="Playlist">
-    //                 <h2>Playlist Builder</h2>
-    //                 <form className="Artist_Form">
-    //                     Nothing to Show Yet
-    //                     </form>
-    //             </div>
-    //         );
-    //     }
-    //     const artistComp = [];
-    //     for (let i = 0; i < artists.length; i++) {
-    //         artistComp.push(<Artist key={`Artist${i}`}
-    //             name={artists[i]} />)
-    //     }
+
+        const artistList = [];
+
+        for (let i = 0; i < artistArray.length; i++) {
+            artistList.push(<Artist 
+                key={i}
+                name={artistArray[i]}
+                />)
+        }
+
+
+        const handleSubmit = () => {
+            // const request = {
+            //     "token":"ACCESS-TOKEN-HERE",
+            //     "festival":"festival name here",
+            //     "artists": props.artists
+            // }
+            // fetch('/spotapi', {
+            //     method: 'POST',
+            //     body: JSON.stringify(request)
+            // })
+        }
+
         return (
             <div className="Playlist">
                 <h2>Playlist Builder</h2>
-                <form className="Artist_Form">
-                <Artist key='Artist1'
-                name='The Strokes' />
-                <Artist key='Artist2'
-                name='Tame Impala' />
-                <Artist key='Artist3'
-                name='Gogol Bordello' />
+                <div className="Artist_Grid">
+                    <ul>
+                    {artistList.map(item => 
+                        <li>{item}</li>
+                    )}
+                    </ul>
+                </div>
+                <form className="Create_Playlist" onSubmit={e => { e.preventDefault(); handleSubmit(); }}>
+                
+                <input className="Create_Button" type="submit" value="Create Playlist" />
                 </form>
             </div>
+
         );
-   // }
 }

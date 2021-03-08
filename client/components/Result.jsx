@@ -1,5 +1,4 @@
 import React, { createContext, useState } from 'react';
-import { Context } from './Context.jsx';
 
 export default function Result(props) {
 
@@ -8,13 +7,15 @@ export default function Result(props) {
             .then(data => data.json())
             .then(function (json) {
                 let payload = json['artists'];
-                setArtists(payload);
+                console.log(payload);
+                props.updateArtists(payload);
             })
+        .then(document.cookie = `artistID=${props.id}`);
     }
 
     return (
         <div className="Result">
-            <form className="Result_Form" onSubmit={e => { e.preventDefault(); handleSubmit(); }}>
+            <form className="Result_Form" onClick={e => { e.preventDefault(); handleSubmit(); }}>
                 {props.displayName}
                 <input
                     className="Result_Button"

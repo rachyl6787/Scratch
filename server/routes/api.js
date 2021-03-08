@@ -18,14 +18,16 @@ router.get(
 // Spotify API Routing
 router.post(
   '/spotapi',
-  spotifyController.getArtistCache,
-  spotifyController.saveToDb,
-  spotifyController.getArtistCache,
-  // spotifyController.getArtistId,
-  // spotifyController.getTopTracks,
-  // spotifyController.getUserId,
-  // spotifyController.createEmptyPlaylist,
-  // spotifyController.seedPlaylist,
+  // spotifyController.getArtistCache,
+  // spotifyController.saveToDb,
+  // spotifyController.getArtistCache,
+
+  spotifyController.getArtistId,
+  spotifyController.getTopTracks,
+  spotifyController.getUserId,
+  spotifyController.createEmptyPlaylist,
+  spotifyController.seedPlaylist,
+
   (req, res) => {
     return res.status(200).send('Playlist successfully created!');
   }

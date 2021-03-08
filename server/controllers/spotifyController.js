@@ -6,6 +6,7 @@ spotifyController = {};
 
 spotifyController.getArtistId = (req, res, next) => {
   console.log('getArtistId fired...');
+  console.log('req.body', req.body);
   const { artists, token } = req.body;
 
   const artistId = {};

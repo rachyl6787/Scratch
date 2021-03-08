@@ -1,5 +1,6 @@
 const fetch = require('node-fetch');
 // const token = process.env.USER_TOKEN;
+const db = require('../models/festivalModels');
 
 spotifyController = {};
 
@@ -242,33 +243,68 @@ spotifyController.seedPlaylist = (req, res, next) => {
     });
 };
 
-module.exports = spotifyController;
+spotifyController.getArtistCache = (req, res, next) => {
+  console.log('getArtistCache fired...');
+  const queryObj = {};
+  const sqlStr = 'SELECT * FROM public.artists';
+  db.query(sqlStr)
+    .then((dbRes) => {
+      for (let i = 0; i < dbRes.rows.length; i++) {
+        queryObj[dbRes.rows[i].name] = dbRes.rows[i].spotify_id;
+      }
+      res.locals.artistCache = queryObj;
+      // console.log('artists', res.locals.artistCache);
+      next();
+    })
+    .catch((err) => {
+      return next({
+        log: `Error in getArtistCache middleware: ${err}`,
+        message: { err: 'An error occurred' },
+      });
+    });
+};
 
-//Write a query to SELECT all the data from the artists table
-
-//Convert from JSON to object.
-//Store that data into a variable, localArtists
+//Store that data into a variable, queryObj
 
 //Iterate through the artists array from req.body (MEMOIZE)
-//Check localArtists to see if the artist exists
+//Check queryObj to see if the artist exists
 //If so, get the spotifyArtistId from this artist
 //Save from spotify - artistId = {}, artistId[artist_name] = spotify_artist_id
 //If the artist doesn't exist
 //Fetch the artist data from the API call
-//Store the artists data into our localArtists cache
+//Store the artists data into our queryObjcache
 // toSave = {}, artistId[artist_name] = spotify_artist_id
 //Get the spotifyArtistId from this artist
 //Save that spotifyArtistId to artistId[artist] in res.locals
-
 // save into object
 // as we get responses, save into cache object
 
-// parse object into string
-// let string = '';
-// iterate over keys in object
-// for (let key of Object.keys(cache))
-// string += `(${key},${cache[key]}),`
-// string = string.splice(string.length-1, ';')
+spotifyController.saveToDb = (req, res, next) => {
+  console.log('saveToDb fired...');
 
-// INSERT INTO db.artists ( artist_name, spotify_artist_id )
-// VALUES ( 'The Killers', '123ABC' ), ( 'Young Thug', 'ABC123' );g
+  res.locals.toSave = { 'band name 7': '123asdas', 'band name 8': 'aasd123' }; // MOCK DATA
+
+  // parse object into string
+  let sqlValStr = '';
+  for (const [key, value] of Object.entries(res.locals.toSave)) {
+    sqlValStr += `('${key}','${value}'),`;
+  }
+  sqlValStr = sqlValStr.slice(0, sqlValStr.length - 1);
+  console.log('sqlValStr:', sqlValStr);
+  let sqlStr = `INSERT INTO public.artists ( name, spotify_id )
+                VALUES ${sqlValStr};`;
+  db.query(sqlStr)
+    .then((res) => next())
+    .catch((err) => {
+      return next({
+        log: `Error in saveToDb middleware: ${err}`,
+        message: { err: 'An error occurred' },
+      });
+    });
+  // INSERT INTO public.artists ( artist_name, spotify_artist_id )
+  // VALUES ( 'The Killers', '123ABC' ), ( 'Young Thug', 'ABC123' );
+};
+module.exports = spotifyController;
+
+// INSERT INTO public.artists ( name, spotify_id )
+// VALUES ("band name 1","123asdas"),("band name 2","aasd123");

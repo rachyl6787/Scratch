@@ -1,6 +1,8 @@
 const path = require('path');
 const fs = require('fs');
+
 const fetch = require('node-fetch');
+
 const db = require('../models/festivalModels');
 const songKickController = {};
 
@@ -50,8 +52,7 @@ songKickController.eventParser = (req, res, next) => {
   return next();
 };
 
-
-//Add method to add user selected festivals to saved database. 
+//Add method to add user selected festivals to saved database.
 //Should render in YourEvents
 songKickController.addFestival = (req, res, next) => {
   const f = req.body;
@@ -72,7 +73,6 @@ songKickController.addFestival = (req, res, next) => {
       });
     });
 };
-
 
 // **** TEMPORARY CONTROLLER FOR FAKING SONGKICK API **** //
 songKickController.serveJSON = (req, res, next) => {

@@ -1,12 +1,12 @@
 const { Pool } = require('pg');
 
 //Timeo URI
-const PG_URI = 'postgres://ggaohaao:jUJRF_j_Vzp-s-9xUwLVW8MiQqxgQVdc@ziggy.db.elephantsql.com:5432/ggaohaao';
+const PG_URI = process.env.PG_URI;
 
 // create a new pool here using the connection string above
 //Currently running on Port 5432
 const pool = new Pool({
-  connectionString: PG_URI
+  connectionString: PG_URI,
 });
 
 // We export an object that contains a property called query,
@@ -16,5 +16,5 @@ module.exports = {
   query: (text, params, callback) => {
     console.log('executed query', text);
     return pool.query(text, params, callback);
-  }
+  },
 };

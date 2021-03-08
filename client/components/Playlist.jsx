@@ -20,7 +20,6 @@ export default function Playlist(props) {
         token = result[1];
       }
     }
-
     const request = {
       token: token,
       festival: fest,

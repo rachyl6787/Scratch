@@ -17,10 +17,13 @@ export default function Festivals (props) {
 
     const handleSubmit = () => {
     const temp = [];
+
     const festivals = {
-        "Outside Lands Music & Arts Festival 2021" : 39627349,
-        "Lockn' Music Festival 2021": 39585457,
-        "Riot Fest 2021": 39621304,
+      'Outside Lands Music & Arts Festival 2021': 39627349,
+      "Lockn' Music Festival 2021": 39585457,
+      'Riot Fest 2021': 39621304,
+      'Monster Energy Aftershock 2021': 39649774,
+      'Ill Points Festival 2021': 39574608,
     };
         for (let x in festivals) {
             if (x.toLowerCase().includes(search.toLowerCase())) {
@@ -38,9 +41,9 @@ export default function Festivals (props) {
     }
 
     return (
-        <div className="Festivals_Countainer">
-            <div className="Festivals">
-                <h2 className="Festivals_Header">Search Upcoming Festivals</h2>
+        <div className="Festivals">
+            <div>
+                <h2>Search Upcoming Festivals</h2>
                 <form className="Festival_Form" onSubmit={e => { e.preventDefault(); handleSubmit();}} >
                     <input className="Search_Input"
                         name="userSearch"

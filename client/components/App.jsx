@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Container from './Container.jsx';
 import Login from './Login.jsx';
-import styles from './app.scss';
+import styles from '../app.scss';
 
 class App extends Component {
   constructor(props) {
@@ -22,7 +22,6 @@ class App extends Component {
       console.log('logged in');
       return (
         <div>
-          <h1>You are Logged In</h1>
           <Container />
         </div>
       );

@@ -91,6 +91,7 @@ spotifyController.getTopTracks = (req, res, next) => {
         })
         .then((data) => {
           for (let i = 0; i < 3; i++) {
+            if (data.tracks[i] === undefined) break;
             topTracks.push(data.tracks[i].uri);
           }
         })

@@ -15,7 +15,14 @@ class Container extends Component {
         token: '',
         code: ''
     };
+    this.updateArtists = this.updateArtists.bind(this);
   }
+
+  updateArtists () {
+   this.setState((state) => { 
+     return {artists: state }
+  })
+}
 
   render() {
     console.log(this.state.search);
@@ -29,10 +36,12 @@ class Container extends Component {
           key={'festival'}
           search={this.state.search}
           artists={this.state.artists}
+          updateArtists={this.updateArtists}
         />
         <Playlist 
           key={'playlist'}
           artists={this.state.artists}
+          updateArtists={this.updateArtists}
           user={this.state.user}
           token={this.state.token}
           code={this.state.code}

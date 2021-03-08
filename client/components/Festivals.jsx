@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Result from "./Result.jsx";
 
-export default function Festivals () {
+export default function Festivals (props) {
 
    const [search, setSearch] = useState('');
    const [results, setResults] = useState([]);
@@ -28,7 +28,8 @@ export default function Festivals () {
                     key={x}
                     displayName={x}
                     id={festivals[x]}
-                    artists='artists'
+                    artists={props.artists}
+                    updateArtists={props.updateArtists}
                     />);
                }
             }

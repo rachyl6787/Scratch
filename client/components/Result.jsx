@@ -1,22 +1,26 @@
-import React, { useState, useEffect } from 'react';
+import React, { createContext, useState } from 'react';
+import { Context } from './Context.jsx';
 
-export default function Result (props) {
+export default function Result(props) {
 
-   const handleSubmit = () => {
+    const handleSubmit = () => {
         fetch(`api/skapi/?id=${props.id}`)
-        .then(data => data.json())
-        .then(data => console.log(data))
+            .then(data => data.json())
+            .then(function (json) {
+                let payload = json['artists'];
+                setArtists(payload);
+            })
     }
 
     return (
         <div className="Result">
-            <form className="Result_Form" onSubmit={e => { e.preventDefault(); handleSubmit();}}>
-            {props.displayName}
-            <input
-              className="Result_Button"
-              type="submit"
-              value="Build Playlist"
-            />
+            <form className="Result_Form" onSubmit={e => { e.preventDefault(); handleSubmit(); }}>
+                {props.displayName}
+                <input
+                    className="Result_Button"
+                    type="submit"
+                    value="Build Playlist"
+                />
             </form>
         </div>
     )

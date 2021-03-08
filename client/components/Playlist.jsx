@@ -5,8 +5,6 @@ export default function Playlist (props) {
 
     const artistArray = props.artists;
 
-
-
         const artistList = [];
 
         for (let i = 0; i < artistArray.length; i++) {
@@ -16,17 +14,18 @@ export default function Playlist (props) {
                 />)
         }
 
-
         const handleSubmit = () => {
-            // const request = {
-            //     "token":"ACCESS-TOKEN-HERE",
-            //     "festival":"festival name here",
-            //     "artists": props.artists
-            // }
-            // fetch('/spotapi', {
-            //     method: 'POST',
-            //     body: JSON.stringify(request)
-            // })
+
+            const request = {
+                "token": "1234",
+                "festival": "Outside Lands Music & Arts Festival 2021",
+                "artists": props.artists
+            }
+            console.log("request: ", request)
+            fetch('api/spotapi/', {
+                method: 'POST',
+                body: JSON.stringify(request)
+            })
         }
 
         return (

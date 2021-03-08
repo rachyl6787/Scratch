@@ -2,12 +2,12 @@
 
 /* Color Palette */
 :root {
-    --pageBG: #2d2e2e;
-    --moduleBG: #BCABAE;
-    --primaryText: #0f0f0f;
-    --accent: #b9314f;
+    --pageBG: #444646;
+    --moduleBG: rgb(171, 173, 188);
+    --primaryText: #272727;
+    --accent: rgb(71, 82, 134);
     --lightText: #fbfbfb;
-    --midText: #716969;
+    --midText: #696a71;
 }
 
 /* Styles for index.html */
@@ -17,11 +17,13 @@ Body {
     font-family: Montserrat;
 }
 
-/* Styles for Container.jsx */
+/* Styles for Container.jsx 
+Banner, Festivals_Container, Playlist, Your_Events
+*/
 .Container {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 2fr 4fr;
+    grid-template-rows: 100px repeat(1, minmax(600px, max-content));
 }
 
 /* Styles for Banner.jsx */
@@ -46,47 +48,26 @@ Body {
 
 /* Styles for Festivals.jsx */
 .Festivals_Container {
-    display: table-cell;
-    grid-column-start: 1;
-    grid-column-end: 1;
-    grid-row-start: 2;
-    grid-row-end: 2;
-    box-sizing: border-box;
-    border-radius: 5px;
-    justify-content: center;
-    padding: 1em;
-    margin-bottom: 1em;
-    margin-right: 1em; 
+  display: table-cell;
+  grid-column-start: 1;
+  grid-column-end: 1;
+  grid-row-start: 2;
+  grid-row-end: span 2;
+  box-sizing: border-box;
+  border-radius: 5px;
+  justify-content: center;
+  padding: 1em;
+  margin-bottom: 1em;
+  margin-right: 1em;  
 }
 .Festivals {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: auto;
+    
     box-sizing: border-box;
     border-radius: 5px;
-    justify-content: center;
-    padding: 1em;
-    margin-bottom: 1em;
-    margin-right: 1em;
     background: var(--moduleBG);
     color: var(--primaryText); 
-    text-align: center;  
-}
-
-.Festivals_Header {
-    display: table-cell;
-    grid-column-start: 1;
-    grid-column-end: 1;
-    grid-row-start: 1;
-    grid-row-end: 1;
-}
-
-.Search_Form {
-    display: table-cell;
-    grid-column-start: 1;
-    grid-column-end: 1;
-    grid-row-start: 2;
-    grid-row-end: span 2;
+    text-align: center; 
+    margin-right: .5em;
 }
 
 .Search_Input {
@@ -104,7 +85,7 @@ Body {
     background: var(--accent);
     color: var(--lightText);
     align-items: baseline;
-    margin: 5px;
+    margin: 1em;
 }
 .Result {
   width: 100%;
@@ -123,19 +104,18 @@ Body {
     margin: 5px;
 }
 
-
 /* Styles for Playlist.jsx */
 .Playlist {
     display: table-cell;
-    grid-column-start: 1;
-    grid-column-end: 1;
-    grid-row-start: 3;
-    grid-row-end: 3;
+    grid-column-start: 2;
+    grid-column-end: 2;
+    grid-row-start: 2;
+    grid-row-end: 2;
     box-sizing: border-box;
     border-radius: 5px;
     justify-content: center;
     padding: 1em;
-    margin-right: 1em;
+    margin-left: .5em;
     background: var(--moduleBG);
     color: var(--primaryText); 
     text-align: center;  
@@ -156,6 +136,7 @@ Body {
 }
 
 /* Styles for YourEvents.jsx */
+/*
 .Your_Events {
     display: table-cell;
     grid-column-start: 2;
@@ -170,5 +151,30 @@ Body {
     color: var(--primaryText); 
     text-align: center;  
 } 
+*/
 
 /* Styles for Login.jsx */
+
+.Login {
+    box-sizing: border-box;
+    border-radius: 5px;
+    justify-content: center;
+    padding: 1em;
+    margin-right: 1em;
+    color: var(--lightText); 
+    text-align: center;  
+} 
+.Login_Button {
+    border-radius: 5px;
+    border-color: var(--accent);
+    border-style: thin;
+    background: var(--lightText);
+    color: var(--accent);
+    padding-left: 5px;
+    padding-right: 5px;
+    margin: 5px;
+}
+#spotify{
+    width: 200px;
+    height: 200px;
+}

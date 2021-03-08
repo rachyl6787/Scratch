@@ -12,11 +12,10 @@ class App extends Component {
     let currCookies = document.cookie;
 
     if (!currCookies.includes('9HWmQ0ME')) {
-      console.log('login');
       return (
         <div>
-          <Login />
-        </div>
+         <Login />
+         </div>
       );
     } else {
       console.log('logged in');

@@ -56,7 +56,7 @@ class Container extends Component {
           festival={this.state.festival}
           updateFestival={this.updateFestival}
         />
-        <YourEvents />
+        {/* <YourEvents /> */}
       </div>
     );
   }

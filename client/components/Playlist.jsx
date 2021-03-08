@@ -25,7 +25,6 @@ export default function Playlist (props) {
                     token = result[1]    
                 }
             }
-           // const token = "BQCcobjvFA9pX4NyeZuRaVTHMTm-uQ_LRIr-VJ6NdFI6C-1D3EoBOGoul4Oz_CJ4nXR95b3veqHqkTt3XJJkHccMb-pnN5DycywMUbgFTuQylL0oto0fdnERBTu7Cv_q2ztNb_2XiXeiC23L5A6KIguMievrZTr6FzE4LY8akm5ZT6P0bRVbIhhvj2GMrrZZQ5HI2kfPz4-J1LU"
             const request = {
                 "token": token,
                 "festival": fest,

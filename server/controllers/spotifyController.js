@@ -1,10 +1,12 @@
 const fetch = require('node-fetch');
 // const token = process.env.USER_TOKEN;
+const db = require('../models/festivalModels');
 
 spotifyController = {};
 
 spotifyController.getArtistId = (req, res, next) => {
   console.log('getArtistId fired...');
+  console.log('req.body', req.body);
   const { artists, token } = req.body;
 
   const artistId = {};
@@ -32,7 +34,8 @@ spotifyController.getArtistId = (req, res, next) => {
           return res.json();
         })
         .then((data) => {
-          artistId[artist] = data.artists.items[0].id;
+          if (data.artists.items.length !== 0)
+            artistId[artist] = data.artists.items[0].id;
         })
         .catch((err) => {
           return next({
@@ -68,7 +71,7 @@ spotifyController.getTopTracks = (req, res, next) => {
 
   // get top tracks
   artistIds.forEach((artistId) => {
-    const artistIdUrl = `	https://api.spotify.com/v1/artists/${artistId}/top-tracks?=market=US`;
+    const artistIdUrl = `https://api.spotify.com/v1/artists/${artistId}/top-tracks?=market=US`;
 
     promiseArr.push(
       fetch(artistIdUrl, {
@@ -241,100 +244,68 @@ spotifyController.seedPlaylist = (req, res, next) => {
     });
 };
 
-// spotifyController.buildPlaylist = (req, res, next) => {
-//   console.log('buildPlaylist fired...');
-//   const { festival } = req.body;
+spotifyController.getArtistCache = (req, res, next) => {
+  console.log('getArtistCache fired...');
+  const queryObj = {};
+  const sqlStr = 'SELECT * FROM public.artists';
+  db.query(sqlStr)
+    .then((dbRes) => {
+      for (let i = 0; i < dbRes.rows.length; i++) {
+        queryObj[dbRes.rows[i].name] = dbRes.rows[i].spotify_id;
+      }
+      res.locals.artistCache = queryObj;
+      // console.log('artists', res.locals.artistCache);
+      next();
+    })
+    .catch((err) => {
+      return next({
+        log: `Error in getArtistCache middleware: ${err}`,
+        message: { err: 'An error occurred' },
+      });
+    });
+};
 
-//   const newPlaylist = {
-//     name: `${festival} Playlist`,
-//     description: 'curated by __card',
-//     public: false,
-//   };
+//Store that data into a variable, queryObj
 
-//   // getUserId - get user id
-//   fetch('https://api.spotify.com/v1/me', {
-//     headers: {
-//       Accept: 'application/json',
-//       'Content-type': 'application/json',
-//       Authorization: `Bearer ${token}`,
-//     },
-//   })
-//     .then((res) => res.json())
-//     .then((data) => {
-//       const userId = data.id;
-//       console.log('userId gotten.');
+//Iterate through the artists array from req.body (MEMOIZE)
+//Check queryObj to see if the artist exists
+//If so, get the spotifyArtistId from this artist
+//Save from spotify - artistId = {}, artistId[artist_name] = spotify_artist_id
+//If the artist doesn't exist
+//Fetch the artist data from the API call
+//Store the artists data into our queryObjcache
+// toSave = {}, artistId[artist_name] = spotify_artist_id
+//Get the spotifyArtistId from this artist
+//Save that spotifyArtistId to artistId[artist] in res.locals
+// save into object
+// as we get responses, save into cache object
 
-//       // createEmptyPlaylist - create an empty playlist
-//       fetch(`https://api.spotify.com/v1/users/${userId}/playlists`, {
-//         method: 'POST',
-//         headers: {
-//           Accept: 'application/json',
-//           'Content-type': 'application/json',
-//           Authorization: `Bearer ${token}`,
-//         },
-//         body: JSON.stringify(newPlaylist),
-//       })
-//         .then((res) => res.json())
-//         .then((data) => {
-//           console.log('empty playlist created.');
+spotifyController.saveToDb = (req, res, next) => {
+  console.log('saveToDb fired...');
 
-//           const playlistId = data.id;
-//           const { topTracks } = res.locals;
+  res.locals.toSave = { 'band name 7': '123asdas', 'band name 8': 'aasd123' }; // MOCK DATA
 
-//           const promiseArr = [];
-
-//           // seedPlaylist - seed playlist with tracks - 100 at a time
-//           for (let i = 0; i < topTracks.length; i += 100) {
-//             const JSONbody = JSON.stringify({
-//               uris: topTracks.slice(i, i + 100),
-//             });
-
-//             promiseArr.push(
-//               fetch(
-//                 `https://api.spotify.com/v1/playlists/${playlistId}/tracks`,
-//                 {
-//                   method: 'POST',
-//                   headers: {
-//                     Accept: 'application/json',
-//                     'Content-type': 'application/json',
-//                     Authorization: `Bearer ${token}`,
-//                   },
-//                   body: JSONbody,
-//                 }
-//               ).catch((err) => {
-//                 return next({
-//                   log: `Error in buildPlaylist:seedPlaylist:fetch middleware: ${err}`,
-//                   message: { err: 'An error occurred' },
-//                 });
-//               })
-//             );
-//           }
-
-//           Promise.all(promiseArr)
-//             .then(() => {
-//               console.log('playlist seeded.');
-//               return next();
-//             })
-//             .catch((err) => {
-//               return next({
-//                 log: `Error in buildPlaylist:seedPlaylist:Promise.all middleware: ${err}`,
-//                 message: { err: 'An error occurred' },
-//               });
-//             });
-//         })
-//         .catch((err) => {
-//           return next({
-//             log: `Error in buildPlaylist:createEmptyPlaylist middleware: ${err}`,
-//             message: { err: 'An error occurred' },
-//           });
-//         });
-//     })
-//     .catch((err) => {
-//       return next({
-//         log: `Error in buildPlaylsit:getUserId middleware: ${err}`,
-//         message: { err: 'An error occurred' },
-//       });
-//     });
-// };
-
+  // parse object into string
+  let sqlValStr = '';
+  for (const [key, value] of Object.entries(res.locals.toSave)) {
+    sqlValStr += `('${key}','${value}'),`;
+  }
+  sqlValStr = sqlValStr.slice(0, sqlValStr.length - 1);
+  console.log('sqlValStr:', sqlValStr);
+  let sqlStr = `INSERT INTO public.artists ( name, spotify_id )
+                VALUES ${sqlValStr};`;
+  db.query(sqlStr)
+    .then((res) => next())
+    .catch((err) => {
+      return next({
+        log: `Error in saveToDb middleware: ${err}`,
+        message: { err: 'An error occurred' },
+      });
+    });
+  // INSERT INTO public.artists ( artist_name, spotify_artist_id )
+  // VALUES ( 'The Killers', '123ABC' ), ( 'Young Thug', 'ABC123' );
+};
 module.exports = spotifyController;
+
+// INSERT INTO public.artists ( name, spotify_id )
+// VALUES ("band name 1","123asdas"),("band name 2","aasd123");

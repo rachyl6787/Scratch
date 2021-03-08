@@ -20,7 +20,6 @@ songKickController.getEventDetails = (req, res, next) => {
     })
     .then((data) => {
       res.locals.data = data.resultsPage.results.event;
-      console.log(res.locals.data);
       return next();
     })
     .catch((err) => {

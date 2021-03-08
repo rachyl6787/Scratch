@@ -10,23 +10,20 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 
+-- Insert sample data from SongPick Api
 
-CREATE TABLE public.people (
-	"id" serial NOT NULL,
-	"name" varchar NOT NULL,
-	"artists_id" bigint,
-	"festivals_id" bigint,
-	CONSTRAINT "people_pk" PRIMARY KEY ("id")
-) WITH (
-  OIDS=FALSE
-);
+-- Test the successful saving of a user's cookies/session values into SQL
 
 
 
-CREATE TABLE public.festivals (
-	"_id" serial NOT NULL,
-	"name" varchar NOT NULL,
-	CONSTRAINT "festivals_pk" PRIMARY KEY ("_id")
+ CREATE TABLE public.users (
+	"id" bigint NOT NULL,
+	"name" varchar,
+	"spotify_id" varchar,
+	"auth_token" varchar,
+	"access_token" varchar,
+	"refresh_token" varchar,
+	"festivals" TEXT
 ) WITH (
   OIDS=FALSE
 );
@@ -35,44 +32,60 @@ CREATE TABLE public.festivals (
 
 CREATE TABLE public.artists (
 	"id" serial NOT NULL,
-	"name" varchar NOT NULL,
-	CONSTRAINT "artists_pk" PRIMARY KEY ("id")
+	"name" varchar,
+	"spotify_id" varchar NOT NULL,
+	CONSTRAINT "Artists_pk" PRIMARY KEY ("id")
 ) WITH (
   OIDS=FALSE
 );
 
 
 
-CREATE TABLE public.songs (
-	"_id" serial NOT NULL,
-	"name" varchar NOT NULL,
-	CONSTRAINT "songs_pk" PRIMARY KEY ("_id")
-) WITH (
-  OIDS=FALSE
-);
+-- CREATE TABLE public.people (
+-- 	"id" serial NOT NULL,
+-- 	"name" varchar NOT NULL,
+-- 	"artists_id" bigint,
+-- 	"festivals_id" bigint,
+-- 	CONSTRAINT "people_pk" PRIMARY KEY ("id")
+-- ) WITH (
+--   OIDS=FALSE
+-- );
 
 
 
-ALTER TABLE public.people ADD CONSTRAINT "people_fk0" FOREIGN KEY ("artists_id") REFERENCES public.artists("id");
-ALTER TABLE public.people ADD CONSTRAINT "people_fk1" FOREIGN KEY ("festivals_id") REFERENCES public.festivals("_id");
-
-ALTER TABLE public.festivals ADD CONSTRAINT "festivals_fk0" FOREIGN KEY ("_id") REFERENCES public.artists("id");
-
-ALTER TABLE public.artists ADD CONSTRAINT "artists_fk0" FOREIGN KEY ("id") REFERENCES public.songs("_id");
-
-
--- Insert sample data from SongPick Api
-
--- Test the successful saving of a user's cookies/session values into SQL
+-- CREATE TABLE public.festivals (
+-- 	"_id" serial NOT NULL,
+-- 	"name" varchar NOT NULL,
+-- 	CONSTRAINT "festivals_pk" PRIMARY KEY ("_id")
+-- ) WITH (
+--   OIDS=FALSE
+-- );
 
 
 
+-- CREATE TABLE public.artists (
+-- 	"id" serial NOT NULL,
+-- 	"name" varchar NOT NULL,
+-- 	CONSTRAINT "artists_pk" PRIMARY KEY ("id")
+-- ) WITH (
+--   OIDS=FALSE
+-- );
 
 
---Test to see if a festival is added to the DB upon user click. 
---For the time being, will simply insert generic festival name
 
-INSERT INTO public.festivals VALUES (1, 'Outside Lands Music & Arts');
+-- CREATE TABLE public.songs (
+-- 	"_id" serial NOT NULL,
+-- 	"name" varchar NOT NULL,
+-- 	CONSTRAINT "songs_pk" PRIMARY KEY ("_id")
+-- ) WITH (
+--   OIDS=FALSE
+-- );
 
---To test if it's present, enter \d festivals
 
+
+-- ALTER TABLE public.people ADD CONSTRAINT "people_fk0" FOREIGN KEY ("artists_id") REFERENCES public.artists("id");
+-- ALTER TABLE public.people ADD CONSTRAINT "people_fk1" FOREIGN KEY ("festivals_id") REFERENCES public.festivals("_id");
+
+-- ALTER TABLE public.festivals ADD CONSTRAINT "festivals_fk0" FOREIGN KEY ("_id") REFERENCES public.artists("id");
+
+-- ALTER TABLE public.artists ADD CONSTRAINT "artists_fk0" FOREIGN KEY ("id") REFERENCES public.songs("_id");

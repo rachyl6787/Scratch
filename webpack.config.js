@@ -3,16 +3,18 @@ const Dotenv = require('dotenv-webpack');
 
 module.exports = {
   plugins: [new Dotenv()],
-  entry: path.resolve(__dirname, 'client', 'index.js'),
+  entry: path.resolve(__dirname, './client/index.js'),
   output: {
-    path: path.resolve(__dirname, 'build'),
+    path: path.resolve(__dirname, './build'),
     filename: 'bundle.js',
   },
   mode: process.env.NODE_ENV,
   devServer: {
-    publicPath: '/build/',
+    publicPath: '/build',
+    contentBase: path.resolve(__dirname, './client'),
     proxy: {
-      '/api': 'http://localhost:3000',
+      '/api': 'http://localhost:3001',
+      '/login': 'http://localhost:3001',
     },
   },
   module: {

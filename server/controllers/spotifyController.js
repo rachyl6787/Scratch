@@ -1,13 +1,14 @@
 const fetch = require('node-fetch');
-// const token = process.env.USER_TOKEN;
+
 const db = require('../models/festivalModels');
 
 spotifyController = {};
 
 spotifyController.getArtistId = (req, res, next) => {
   console.log('getArtistId fired...');
-  console.log('req.body', req.body);
-  const { artists, token } = req.body;
+
+  const { artists } = req.body;
+  res.locals.token = req.cookies.WHxyM9l1;
 
   const artistId = {};
   const promiseArr = [];
@@ -22,7 +23,7 @@ spotifyController.getArtistId = (req, res, next) => {
         headers: {
           Accept: 'application/json',
           'Content-type': 'adatapplication/json',
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${res.locals.token}`,
         },
       })
         .then((res) => {
@@ -64,7 +65,6 @@ spotifyController.getArtistId = (req, res, next) => {
 spotifyController.getTopTracks = (req, res, next) => {
   console.log('getTopTracks fired...');
 
-  const { token } = req.body;
   const artistIds = Object.values(res.locals.artistId);
   const promiseArr = [];
   const topTracks = [];
@@ -78,7 +78,7 @@ spotifyController.getTopTracks = (req, res, next) => {
         headers: {
           Accept: 'application/json',
           'Content-type': 'application/json',
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${res.locals.token}`,
         },
       })
         .then((res) => {
@@ -122,13 +122,11 @@ spotifyController.getTopTracks = (req, res, next) => {
 spotifyController.getUserId = (req, res, next) => {
   console.log('getUserId fired...');
 
-  const { token } = req.body;
-
   fetch('https://api.spotify.com/v1/me', {
     headers: {
       Accept: 'application/json',
       'Content-type': 'application/json',
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${res.locals.token}`,
     },
   })
     .then((res) => {
@@ -154,7 +152,7 @@ spotifyController.getUserId = (req, res, next) => {
 spotifyController.createEmptyPlaylist = (req, res, next) => {
   console.log('createEmptyPlaylist fired...');
 
-  const { festival, token } = req.body;
+  const { festival } = req.body;
   const { userId } = res.locals;
 
   const newPlaylist = {
@@ -168,7 +166,7 @@ spotifyController.createEmptyPlaylist = (req, res, next) => {
     headers: {
       Accept: 'application/json',
       'Content-type': 'application/json',
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${res.locals.token}`,
     },
     body: JSON.stringify(newPlaylist),
   })
@@ -196,7 +194,6 @@ spotifyController.seedPlaylist = (req, res, next) => {
   console.log('seedPlaylist fired...');
 
   const { topTracks, playlistId } = res.locals;
-  const { token } = req.body;
 
   const promiseArr = [];
 
@@ -212,7 +209,7 @@ spotifyController.seedPlaylist = (req, res, next) => {
         headers: {
           Accept: 'application/json',
           'Content-type': 'application/json',
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${res.locals.token}`,
         },
         body: JSONbody,
       })
@@ -245,6 +242,8 @@ spotifyController.seedPlaylist = (req, res, next) => {
     });
 };
 
+//// **** IN PROGRESS - CACHING ARTIST NAME AND SPOTIFY ID TO REDUCE API CALLS **** ////
+
 spotifyController.getArtistCache = (req, res, next) => {
   console.log('getArtistCache fired...');
   const queryObj = {};
@@ -266,9 +265,7 @@ spotifyController.getArtistCache = (req, res, next) => {
     });
 };
 
-//Store that data into a variable, queryObj
-
-//Iterate through the artists array from req.body (MEMOIZE)
+//Iterate through the artists array from req.body
 //Check queryObj to see if the artist exists
 //If so, get the spotifyArtistId from this artist
 //Save from spotify - artistId = {}, artistId[artist_name] = spotify_artist_id
@@ -289,9 +286,9 @@ spotifyController.saveToDb = (req, res, next) => {
   // parse object into string
   let sqlValStr = '';
   for (const [key, value] of Object.entries(res.locals.toSave)) {
-    sqlValStr += `('${key}','${value}'),`;
+    sqlValStr += `('${key}', '${value}'), `;
   }
-  sqlValStr = sqlValStr.slice(0, sqlValStr.length - 1);
+  sqlValStr = sqlValStr.slice(0, sqlValStr.length - 2);
   console.log('sqlValStr:', sqlValStr);
   let sqlStr = `INSERT INTO public.artists ( name, spotify_id )
                 VALUES ${sqlValStr};`;

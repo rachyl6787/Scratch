@@ -14,11 +14,10 @@ class App extends Component {
     if (!currCookies.includes('9HWmQ0ME')) {
       return (
         <div>
-         <Login />
-         </div>
+          <Login />
+        </div>
       );
     } else {
-      console.log('logged in');
       return (
         <div>
           <Container />

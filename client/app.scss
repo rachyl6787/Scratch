@@ -2,49 +2,52 @@
 
 /* Color Palette */
 :root {
-    --pageBG: #444646;
-    --moduleBG: rgb(171, 173, 188);
-    --primaryText: #272727;
-    --accent: rgb(71, 82, 134);
-    --lightText: #fbfbfb;
-    --midText: #696a71;
+  --pageBG: #444646;
+  --moduleBG: rgb(171, 173, 188);
+  --primaryText: #272727;
+  --accent: rgb(71, 82, 134);
+  --lightText: #fbfbfb;
+  --midText: #696a71;
 }
 
 /* Styles for index.html */
 Body {
-    background: var(--pageBG);
-    color: var(--accent); 
-    font-family: Montserrat;
+  background: var(--pageBG);
+  color: var(--accent);
+  font-family: Montserrat;
 }
 
 /* Styles for Container.jsx 
 Banner, Festivals_Container, Playlist, Your_Events
 */
 .Container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 100px repeat(1, minmax(600px, max-content));
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 100px repeat(1, minmax(600px, max-content));
 }
 
 /* Styles for Banner.jsx */
 .Banner {
-    display: table-cell;
-    grid-column-start: 1;
-    grid-column-end: span 2;
-    grid-row-start: 1;
-    grid-row-end: 1;
-    box-sizing: border-box;
-    border-radius: 5px;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    padding: 1em;
-    margin-bottom: 1em;
-    background: var(--accent);
-    color: var(--lightText);
-    size: 100em;
+  display: table-cell;
+  grid-column-start: 1;
+  grid-column-end: span 2;
+  grid-row-start: 1;
+  grid-row-end: 1;
+  box-sizing: border-box;
+  border-radius: 5px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 1em;
+  margin-bottom: 1em;
+  background: var(--accent);
+  color: var(--lightText);
+  size: 100em;
 }
 
+.greeting {
+  margin: 0.5em 0 0 0;
+}
 
 /* Styles for Festivals.jsx */
 .Festivals_Container {
@@ -58,34 +61,33 @@ Banner, Festivals_Container, Playlist, Your_Events
   justify-content: center;
   padding: 1em;
   margin-bottom: 1em;
-  margin-right: 1em;  
+  margin-right: 1em;
 }
 .Festivals {
-    
-    box-sizing: border-box;
-    border-radius: 5px;
-    background: var(--moduleBG);
-    color: var(--primaryText); 
-    text-align: center; 
-    margin-right: .5em;
+  box-sizing: border-box;
+  border-radius: 5px;
+  background: var(--moduleBG);
+  color: var(--primaryText);
+  text-align: center;
+  margin-right: 0.5em;
 }
 
 .Search_Input {
-    width: 65%;
-    height: 25px;
-    border-radius: 5px;
-    color: var(--primaryText);
-    align-items: baseline;
-    margin: 5px;
-    size: 20px;
+  width: 65%;
+  height: 25px;
+  border-radius: 5px;
+  color: var(--primaryText);
+  align-items: baseline;
+  margin: 5px;
+  size: 20px;
 }
 
 .Search_Button {
-    border-radius: 5px;
-    background: var(--accent);
-    color: var(--lightText);
-    align-items: baseline;
-    margin: 1em;
+  border-radius: 5px;
+  background: var(--accent);
+  color: var(--lightText);
+  align-items: baseline;
+  margin: 1em;
 }
 .Result {
   width: 100%;
@@ -94,45 +96,45 @@ Banner, Festivals_Container, Playlist, Your_Events
   margin: 5px;
 }
 .Result_Button {
-    border-radius: 5px;
-    border-color: var(--accent);
-    border-style: thin;
-    background: var(--lightText);
-    color: var(--accent);
-    padding-left: 5px;
-    padding-right: 5px;
-    margin: 5px;
+  border-radius: 5px;
+  border-color: var(--accent);
+  border-style: thin;
+  background: var(--lightText);
+  color: var(--accent);
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 5px;
 }
 
 /* Styles for Playlist.jsx */
 .Playlist {
-    display: table-cell;
-    grid-column-start: 2;
-    grid-column-end: 2;
-    grid-row-start: 2;
-    grid-row-end: 2;
-    box-sizing: border-box;
-    border-radius: 5px;
-    justify-content: center;
-    padding: 1em;
-    margin-left: .5em;
-    background: var(--moduleBG);
-    color: var(--primaryText); 
-    text-align: center;  
-} 
+  display: table-cell;
+  grid-column-start: 2;
+  grid-column-end: 2;
+  grid-row-start: 2;
+  grid-row-end: 2;
+  box-sizing: border-box;
+  border-radius: 5px;
+  justify-content: center;
+  padding: 0.2em;
+  margin-left: 0.5em;
+  background: var(--moduleBG);
+  color: var(--primaryText);
+  text-align: center;
+}
 .Artist_Grid {
-    display: flex column;
-    margin: 1px;
+  display: flex column;
+  margin: 1px;
 }
 .Create_Button {
-    border-radius: 5px;
-    border-color: var(--accent);
-    border-style: thin;
-    background: var(--lightText);
-    color: var(--accent);
-    padding-left: 5px;
-    padding-right: 5px;
-    margin: 5px;
+  border-radius: 5px;
+  border-color: var(--accent);
+  border-style: thin;
+  background: var(--lightText);
+  color: var(--accent);
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 5px;
 }
 
 /* Styles for YourEvents.jsx */
@@ -156,25 +158,25 @@ Banner, Festivals_Container, Playlist, Your_Events
 /* Styles for Login.jsx */
 
 .Login {
-    box-sizing: border-box;
-    border-radius: 5px;
-    justify-content: center;
-    padding: 1em;
-    margin-right: 1em;
-    color: var(--lightText); 
-    text-align: center;  
-} 
-.Login_Button {
-    border-radius: 5px;
-    border-color: var(--accent);
-    border-style: thin;
-    background: var(--lightText);
-    color: var(--accent);
-    padding-left: 5px;
-    padding-right: 5px;
-    margin: 5px;
+  box-sizing: border-box;
+  border-radius: 5px;
+  justify-content: center;
+  padding: 1em;
+  margin-right: 1em;
+  color: var(--lightText);
+  text-align: center;
 }
-#spotify{
-    width: 200px;
-    height: 200px;
+.Login_Button {
+  border-radius: 5px;
+  border-color: var(--accent);
+  border-style: thin;
+  background: var(--lightText);
+  color: var(--accent);
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 5px;
+}
+#spotify {
+  width: 200px;
+  height: 200px;
 }
